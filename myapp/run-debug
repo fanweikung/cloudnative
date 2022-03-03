@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Simple shell script to run debug mode.
+node --inspect=0.0.0.0 server/server.js
