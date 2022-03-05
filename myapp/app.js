@@ -11,8 +11,11 @@ var usersRouter = require("./routes/users");
 const health = require("@cloudnative/health-connect");
 let healthcheck = new health.HealthChecker();
 
+// liveness check
 let pingcheck = new health.PingCheck("example.com");
-healthcheck.registerLivenessCheck(pingcheck);
+healthcheck.registerLivenessCheck();
+// readiness check with ping check
+healthcheck.registerReadinessCheck(pingcheck);
 
 var app = express();
 
@@ -29,8 +32,9 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 
-// liveness checker
+// liveness & readiness checker middleware
 app.use("/live", health.LivenessEndpoint(healthcheck));
+app.use("/ready", health.ReadinessEndpoint(healthcheck));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
