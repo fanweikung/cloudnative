@@ -3,6 +3,7 @@
 *.class
 *.cache
 *.org
+*.log
 node_modules/
 exercise/
 data/feedback.json
