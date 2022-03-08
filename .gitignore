@@ -2,6 +2,7 @@
 *.zip
 *.class
 *.cache
+*.org
 node_modules/
 exercise/
 data/feedback.json

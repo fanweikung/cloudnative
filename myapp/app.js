@@ -1,3 +1,4 @@
+var perm = require("appmetrics-prometheus").attach();
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
