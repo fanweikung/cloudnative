@@ -1,5 +1,5 @@
 var zipkin = require("appmetrics-zipkin")({
-  host: "localhost",
+  host: "jaeger-collector.default.svc.cluster.local",
   port: 9411,
   serviceName: "nodeserver",
 });
