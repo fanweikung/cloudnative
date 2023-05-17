@@ -7,17 +7,18 @@ var logger = require("morgan");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 
+var app = express();
+
 // health checker
 const health = require("@cloudnative/health-connect");
 let healthcheck = new health.HealthChecker();
 
 // liveness check
+// healthcheck.registerLivenessCheck();
 let pingcheck = new health.PingCheck("example.com");
-healthcheck.registerLivenessCheck();
-// readiness check with ping check
+// take our ping check and switch it from being used as a liveness check
+// healthcheck.registerLivenessCheck(pingcheck);
 healthcheck.registerReadinessCheck(pingcheck);
-
-var app = express();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -32,7 +33,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 
-// liveness & readiness checker middleware
+// liveness & readiness checker middleware (end points)
 app.use("/live", health.LivenessEndpoint(healthcheck));
 app.use("/ready", health.ReadinessEndpoint(healthcheck));
 
